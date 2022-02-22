@@ -2,12 +2,13 @@ import Login from './Unauthed/Login';
 import Home from './Authed/Home';
 
 import { IPage } from './interfaces';
+import { ERole } from 'app/enums';
 
 const unauthed: IPage[] = [
     {
         name: 'Login',
         path: '/login',
-        role: null,
+        roles: [],
         authed: false,
         Element: Login,
     },
@@ -17,7 +18,7 @@ const authed: IPage[] = [
     {
         name: 'Home',
         path: '/home',
-        role: 'user',
+        roles: [ERole.User, ERole.Admin],
         authed: true,
         Element: Home,
     },

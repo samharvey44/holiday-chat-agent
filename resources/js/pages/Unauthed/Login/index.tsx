@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -7,6 +6,7 @@ import { useSnackbar } from 'notistack';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { useFormik } from 'formik';
+import React from 'react';
 
 import { formInitialValues } from './initialValues';
 import useLoginUser from 'app/hooks/user/login';
@@ -23,24 +23,16 @@ const Login: React.FC = () => {
         initialValues: formInitialValues,
         validationSchema: formSchema,
         onSubmit: (values) => {
-            api.get('/sanctum/csrf-cookie')
+            api.post('/login', values)
                 .then(() => {
-                    api.post('/login', values)
-                        .then(() => {
-                            enqueueSnackbar('Logged in successfully!', {
-                                variant: 'success',
-                            });
+                    enqueueSnackbar('Logged in successfully!', {
+                        variant: 'success',
+                    });
 
-                            login();
-                        })
-                        .catch(() => {
-                            enqueueSnackbar('Login failed!', {
-                                variant: 'error',
-                            });
-                        });
+                    login();
                 })
                 .catch(() => {
-                    enqueueSnackbar('An internal error occured!', {
+                    enqueueSnackbar('Login failed!', {
                         variant: 'error',
                     });
                 });

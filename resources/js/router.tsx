@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { authedPages, unauthedPages } from './pages';
+import AppBar from 'app/components/layout/AppBar';
 import { useRecoilValue } from 'recoil';
 import userAtom from './atoms/user';
 
@@ -10,23 +11,32 @@ const Router: React.FC = () => {
 
     let pages = !!user ? authedPages : unauthedPages;
 
-    pages = pages.filter((page) =>
-        page.role ? user?.role.name === page.role : true,
-    );
+    if (user) {
+        pages = pages.filter((page) =>
+            page.roles.length > 0
+                ? page.roles.find((role) => role.valueOf() === user.role.name)
+                : true,
+        );
+    }
 
     return (
         <BrowserRouter>
             <Routes>
-                {pages.map(({ path, Element }) => (
-                    <Route key={path} path={path} element={<Element />} />
-                ))}
+                <Route path="/" element={<AppBar />}>
+                    {pages.map(({ path, Element }) => (
+                        <Route key={path} path={path} element={<Element />} />
+                    ))}
 
-                <Route
-                    path="*"
-                    element={
-                        <Navigate replace to={!!user ? '/home' : '/login'} />
-                    }
-                />
+                    <Route
+                        path="*"
+                        element={
+                            <Navigate
+                                replace
+                                to={!!user ? '/home' : '/login'}
+                            />
+                        }
+                    />
+                </Route>
             </Routes>
         </BrowserRouter>
     );

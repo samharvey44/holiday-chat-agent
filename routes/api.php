@@ -19,6 +19,8 @@ use App\Http\Controllers\API\UserController;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [UserController::class, 'index']);
+
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 Route::middleware('guest')->group(function () {
