@@ -16,7 +16,7 @@ export const useStyles = () => {
         },
 
         loginContainer: {
-            marginTop: '10%',
+            marginTop: '100px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -24,8 +24,6 @@ export const useStyles = () => {
             borderRadius: '10px',
             width: !isTablet ? '45%' : '90%',
             overflow: 'hidden',
-            border: '1px solid #e0e0e0',
-            backgroundColor: '#F9FAFB',
         },
 
         loginHeader: {
@@ -35,6 +33,7 @@ export const useStyles = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            textAlign: 'center',
         },
 
         loginHeaderText: {

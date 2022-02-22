@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Slide from '@mui/material/Slide';
 import { useSnackbar } from 'notistack';
+import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { useFormik } from 'formik';
@@ -45,7 +46,7 @@ const Login: React.FC = () => {
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <Box sx={styles.root}>
-                            <Box sx={styles.loginContainer}>
+                            <Paper sx={styles.loginContainer}>
                                 <Box sx={styles.loginHeader}>
                                     <Typography
                                         variant="h4"
@@ -103,7 +104,7 @@ const Login: React.FC = () => {
                                         Submit
                                     </Button>
                                 </Box>
-                            </Box>
+                            </Paper>
                         </Box>
                     </Grid>
                 </Grid>
