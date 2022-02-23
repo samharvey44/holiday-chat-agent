@@ -1,22 +1,37 @@
+import useMediaQuery from '@mui/material/useMediaQuery';
+import useTheme from '@mui/material/styles/useTheme';
+
 import useMakeStyles from 'app/hooks/makeStyles';
 
-export const useStyles = () =>
-    useMakeStyles({
+export const useStyles = () => {
+    const theme = useTheme();
+
+    const isTablet = useMediaQuery(theme.breakpoints.down('sm'));
+
+    return useMakeStyles({
         appBarRoot: {
             flexGrow: 1,
         },
 
-        logoutButton: {
-            color: 'white',
-        },
-
-        toolbarInner: {
+        buttonContainer: {
             display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            justifyContent: !isTablet ? 'flex-end' : 'center',
         },
 
-        greetingText: {
+        button: {
+            color: 'white',
             marginLeft: '20px',
         },
+
+        appBarInner: {
+            display: 'flex',
+            alignItems: 'center',
+            padding: '30px',
+        },
+
+        greetingContainer: {
+            display: 'flex',
+            justifyContent: !isTablet ? undefined : 'center',
+        },
     });
+};

@@ -1,10 +1,10 @@
-import { ERole } from 'app/enums';
+import { EPages, ERoles } from 'app/enums';
 import React from 'react';
 
 export interface IPage {
-    name: string;
+    name: EPages;
     path: string;
-    roles: ERole[];
+    roles: ERoles[];
     authed: boolean;
     Element: React.FC;
 }

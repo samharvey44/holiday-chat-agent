@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, useCallback } from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Rating from '@mui/material/Rating';
@@ -13,9 +13,9 @@ import Box from '@mui/material/Box';
 
 import { IQuestionWithAnswer } from 'app/atoms/questions/interfaces';
 import useGetQuestions from 'app/hooks/questions/get';
+import { IHoliday, IMeta } from 'app/interfaces';
 import questionsAtom from 'app/atoms/questions';
 import { useStyles } from './hooks/useStyles';
-import { IHoliday } from 'app/interfaces';
 import api from 'app/services/api';
 import { url } from 'app/helpers';
 
@@ -39,7 +39,36 @@ const Home: React.FC = () => {
         },
     );
 
+    const [holidaysMeta, setHolidaysMeta] = useState<IMeta>({
+        current_page: 1,
+        total: 0,
+        last_page: 1,
+    });
     const [holidays, setHolidays] = useState<IHoliday[]>([]);
+    const [holidaysPage, setHolidaysPage] = useState(1);
+
+    const handleGetHolidays = useCallback(
+        (page: number) => {
+            api.get('/holidays', {
+                params: {
+                    page,
+                    ...selectedAnswers,
+                },
+            })
+                .then(({ data: { data, meta } }) => {
+                    setHolidaysMeta(meta);
+                    setHolidays(data);
+
+                    setAgentIn(false);
+                })
+                .catch(() => {
+                    enqueueSnackbar('Failed to get holidays!', {
+                        variant: 'error',
+                    });
+                });
+        },
+        [selectedAnswers],
+    );
 
     useEffect(() => {
         const messageTimeout = setTimeout(() => {
@@ -65,23 +94,11 @@ const Home: React.FC = () => {
         }
     }, []);
 
-    const handleSubmitAnswers = () => {
-        api.get('/holidays', {
-            params: {
-                ...selectedAnswers,
-            },
-        })
-            .then(({ data: { data } }) => {
-                setHolidays(data);
+    useEffect(() => {
+        if (!holidaysIn) return;
 
-                setAgentIn(false);
-            })
-            .catch(() => {
-                enqueueSnackbar('Failed to get holidays!', {
-                    variant: 'error',
-                });
-            });
-    };
+        handleGetHolidays(holidaysPage);
+    }, [holidaysPage]);
 
     const resetAgent = () => {
         setCurrentQuestion(1);
@@ -90,6 +107,7 @@ const Home: React.FC = () => {
         });
 
         setHolidaysIn(false);
+        setHolidaysPage(1);
     };
 
     return (
@@ -451,9 +469,11 @@ const Home: React.FC = () => {
                                                                 }
                                                                 variant="contained"
                                                                 color="primary"
-                                                                onClick={
-                                                                    handleSubmitAnswers
-                                                                }
+                                                                onClick={() => {
+                                                                    handleGetHolidays(
+                                                                        1,
+                                                                    );
+                                                                }}
                                                             >
                                                                 Find Holidays
                                                             </Button>
@@ -510,7 +530,7 @@ const Home: React.FC = () => {
                                     variant="h4"
                                     sx={styles.holidayTitle}
                                 >
-                                    We found you <b>{holidays.length}</b>{' '}
+                                    We found you <b>{holidaysMeta.total}</b>{' '}
                                     matching holidays!
                                 </Typography>
 
@@ -669,6 +689,46 @@ const Home: React.FC = () => {
                                         ),
                                     )}
                                 </Grid>
+
+                                {holidays.length > 0 && (
+                                    <Box sx={styles.paginationContainer}>
+                                        <Button
+                                            disabled={holidaysPage === 1}
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={() => {
+                                                setHolidaysPage(
+                                                    (curr) => curr - 1,
+                                                );
+                                            }}
+                                        >
+                                            Last Page
+                                        </Button>
+
+                                        <Typography
+                                            variant="subtitle1"
+                                            sx={styles.paginationText}
+                                        >
+                                            {`Page ${holidaysMeta.current_page} of ${holidaysMeta.last_page}`}
+                                        </Typography>
+
+                                        <Button
+                                            disabled={
+                                                holidaysPage ===
+                                                holidaysMeta.last_page
+                                            }
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={() => {
+                                                setHolidaysPage(
+                                                    (curr) => curr + 1,
+                                                );
+                                            }}
+                                        >
+                                            Next Page
+                                        </Button>
+                                    </Box>
+                                )}
                             </Box>
                         )}
                     </Box>
