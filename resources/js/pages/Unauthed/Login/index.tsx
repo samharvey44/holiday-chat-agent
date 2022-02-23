@@ -12,11 +12,14 @@ import React from 'react';
 import { formInitialValues } from './initialValues';
 import useLoginUser from 'app/hooks/user/login';
 import { useStyles } from './hooks/useStyles';
+import useNavigate from 'app/hooks/navigate';
 import { formSchema } from './schema';
 import api from 'app/services/api';
+import { EPages } from 'app/enums';
 
 const Login: React.FC = () => {
     const { enqueueSnackbar } = useSnackbar();
+    const navigate = useNavigate();
     const login = useLoginUser();
     const styles = useStyles();
 
@@ -106,6 +109,23 @@ const Login: React.FC = () => {
                                     >
                                         Submit
                                     </Button>
+
+                                    <Typography
+                                        variant="subtitle1"
+                                        sx={styles.signUpTypography}
+                                    >
+                                        <span style={styles.signUpText}>
+                                            Don't have an account?
+                                        </span>{' '}
+                                        <b
+                                            style={styles.signUpLink}
+                                            onClick={() => {
+                                                navigate(EPages.Register);
+                                            }}
+                                        >
+                                            Sign up!
+                                        </b>
+                                    </Typography>
                                 </Box>
                             </Paper>
                         </Box>

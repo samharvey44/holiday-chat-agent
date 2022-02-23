@@ -14,7 +14,7 @@ const Router: React.FC = () => {
     if (user) {
         pages = pages.filter((page) =>
             page.roles.length > 0
-                ? page.roles.find((role) => role.valueOf() === user.role.name)
+                ? page.roles.find((role) => role === user.role.name)
                 : true,
         );
     }

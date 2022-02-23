@@ -1,5 +1,6 @@
 import useMediaQuery from '@mui/material/useMediaQuery';
 import useTheme from '@mui/material/styles/useTheme';
+
 import useMakeStyles from 'app/hooks/makeStyles';
 
 export const useStyles = () => {
@@ -19,6 +20,7 @@ export const useStyles = () => {
 
         chatContainer: {
             marginTop: !isTablet ? '100px' : '50px',
+            marginBottom: !isTablet ? '100px' : '50px',
             display: 'flex',
             flexDirection: 'column',
             borderRadius: '10px',
@@ -169,6 +171,19 @@ export const useStyles = () => {
 
         footerItem: {
             marginRight: '10px',
+        },
+
+        paginationContainer: {
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '20px',
+            alignItems: 'center',
+        },
+
+        paginationText: {
+            marginLeft: '10px',
+            marginRight: '10px',
+            textAlign: 'center',
         },
     });
 };

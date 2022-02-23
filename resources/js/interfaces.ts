@@ -1,45 +1,22 @@
 import { SxProps } from '@mui/system/styleFunctionSx/styleFunctionSx';
 import { Theme } from '@mui/system/createTheme/createTheme';
 
+import { ITemperature } from './atoms/temperatures/interfaces';
+import { IContinent } from './atoms/continents/interfaces';
+import { ICategory } from './atoms/categories/interfaces';
+import { ILocation } from './atoms/locations/interfaces';
+import { ICountry } from './atoms/countries/interfaces';
+import { ICity } from './atoms/cities/interfaces';
+import { ERoles } from './enums';
+
 export interface IRole {
     id: number;
-    name: string;
+    name: ERoles;
 }
 
 export interface IStyles {
     [name: string]: SxProps<Theme>;
 }
-
-export interface ITemperature {
-    id: number;
-    name: string;
-}
-
-export interface IContinent {
-    id: number;
-    name: string;
-}
-
-export interface ILocation {
-    id: number;
-    name: string;
-}
-
-export interface ICategory {
-    id: number;
-    name: string;
-}
-
-export interface ICountry {
-    id: number;
-    name: string;
-}
-
-export interface ICity {
-    id: number;
-    name: string;
-}
-
 export interface IHoliday {
     id: number;
     createdAt: string;
@@ -52,4 +29,10 @@ export interface IHoliday {
     category: ICategory;
     country: ICountry;
     city?: ICity;
+}
+
+export interface IMeta {
+    current_page: number;
+    total: number;
+    last_page: number;
 }

@@ -1,14 +1,13 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 export default function useTimeOfDay() {
-    return useMemo(() => {
-        const date = new Date();
-        const hours = date.getHours();
+    const hours = new Date().getHours();
 
+    return useMemo(() => {
         if (hours < 12) return 'morning';
 
         if (hours < 18) return 'afternoon';
 
         return 'evening';
-    }, []);
+    }, [hours]);
 }

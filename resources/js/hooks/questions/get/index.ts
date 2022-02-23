@@ -5,7 +5,7 @@ import questionsAtom from 'app/atoms/questions';
 import { useSnackbar } from 'notistack';
 import api from 'app/services/api';
 
-export default function getQuestions() {
+export default function useGetQuestions() {
     const setQuestions = useSetRecoilState(questionsAtom);
     const { enqueueSnackbar } = useSnackbar();
 

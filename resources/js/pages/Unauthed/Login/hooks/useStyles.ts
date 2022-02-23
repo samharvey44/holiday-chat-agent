@@ -17,6 +17,7 @@ export const useStyles = () => {
 
         loginContainer: {
             marginTop: !isTablet ? '100px' : '50px',
+            marginBottom: !isTablet ? '100px' : '50px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -54,6 +55,19 @@ export const useStyles = () => {
 
         loginButton: {
             marginTop: '40px',
+        },
+
+        signUpText: {
+            marginTop: '20px',
+        },
+
+        signUpLink: {
+            color: theme.palette.primary.main,
+            cursor: 'pointer',
+        },
+
+        signUpTypography: {
+            marginTop: '20px',
         },
     });
 };
