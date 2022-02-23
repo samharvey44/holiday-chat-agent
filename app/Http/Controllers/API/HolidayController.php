@@ -16,20 +16,22 @@ class HolidayController extends Controller {
      * @return \App\Http\Resources\HolidayResource
      */
     public function index(IndexRequest $request) {
-        $holidays = Holiday::where('price_per_night', '<=', $request->input('pricePerNight'))
-            ->whereRelation('temperature', 'name', $request->input('temperature'))
-            ->whereRelation('category', 'name', $request->input('category'))
-            ->whereRelation('location', 'name', $request->input('location'));
+        $holidays = Holiday::with(
+            'temperature',
+            'continent',
+            'category',
+            'location',
+            'country',
+            'city'
+        )
+            ->where('price_per_night', '<=', $request->input('pricePerNight'));
+
+        if ($request->input('temperature') !== 'any') $holidays->whereRelation('temperature', 'name', $request->input('temperature'));
+        if ($request->input('category') !== 'any') $holidays->whereRelation('category', 'name', $request->input('category'));
+        if ($request->input('location') !== 'any') $holidays->whereRelation('location', 'name', $request->input('location'));
 
         return HolidayResource::collection(
-            $holidays->with(
-                'continent',
-                'country',
-                'location',
-                'temperature',
-                'category',
-                'city'
-            )->get()
+            $holidays->get()
         );
     }
 }

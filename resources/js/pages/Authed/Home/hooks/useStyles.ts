@@ -14,6 +14,7 @@ export const useStyles = () => {
             justifyContent: 'center',
             alignItems: 'center',
             width: '100%',
+            marginBottom: '20px',
         },
 
         chatContainer: {
@@ -134,7 +135,6 @@ export const useStyles = () => {
             backgroundColor: theme.palette.primary.main,
             padding: '20px',
             flexGrow: 1,
-            marginBottom: !isTablet ? undefined : '10px',
         },
 
         holidayText: {

@@ -295,6 +295,59 @@ const Home: React.FC = () => {
                                                                         );
                                                                     },
                                                                 )}
+
+                                                                <Button
+                                                                    variant={
+                                                                        selectedAnswers[
+                                                                            key
+                                                                        ] ===
+                                                                        'any'
+                                                                            ? 'contained'
+                                                                            : 'outlined'
+                                                                    }
+                                                                    disabled={
+                                                                        !!selectedAnswers[
+                                                                            key
+                                                                        ] &&
+                                                                        selectedAnswers[
+                                                                            key
+                                                                        ] !==
+                                                                            'any'
+                                                                    }
+                                                                    onClick={
+                                                                        !selectedAnswers[
+                                                                            key
+                                                                        ]
+                                                                            ? () => {
+                                                                                  setSelectedAnswers(
+                                                                                      (
+                                                                                          curr,
+                                                                                      ) => ({
+                                                                                          ...curr,
+                                                                                          [key]: 'any',
+                                                                                      }),
+                                                                                  );
+
+                                                                                  setCurrentQuestion(
+                                                                                      (
+                                                                                          curr,
+                                                                                      ) =>
+                                                                                          curr +
+                                                                                          1,
+                                                                                  );
+                                                                              }
+                                                                            : undefined
+                                                                    }
+                                                                    sx={
+                                                                        styles.answer
+                                                                    }
+                                                                >
+                                                                    <Typography variant="h6">
+                                                                        <b>
+                                                                            Any
+                                                                        </b>
+                                                                    </Typography>
+                                                                </Button>
                                                             </Box>
                                                         </Grid>
                                                     </Grow>
