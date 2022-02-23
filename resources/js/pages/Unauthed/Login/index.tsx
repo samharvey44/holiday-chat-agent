@@ -1,9 +1,9 @@
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Slide from '@mui/material/Slide';
 import { useSnackbar } from 'notistack';
 import Paper from '@mui/material/Paper';
+import Grow from '@mui/material/Grow';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { useFormik } from 'formik';
@@ -41,12 +41,15 @@ const Login: React.FC = () => {
     });
 
     return (
-        <Slide direction="down" in>
+        <Grow in>
             <form onSubmit={formikFields.handleSubmit}>
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <Box sx={styles.root}>
-                            <Paper sx={styles.loginContainer}>
+                            <Paper
+                                sx={styles.loginContainer}
+                                variant="outlined"
+                            >
                                 <Box sx={styles.loginHeader}>
                                     <Typography
                                         variant="h4"
@@ -109,7 +112,7 @@ const Login: React.FC = () => {
                     </Grid>
                 </Grid>
             </form>
-        </Slide>
+        </Grow>
     );
 };
 

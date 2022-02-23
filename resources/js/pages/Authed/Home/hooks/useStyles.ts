@@ -13,10 +13,11 @@ export const useStyles = () => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
+            width: '100%',
         },
 
         chatContainer: {
-            marginTop: '100px',
+            marginTop: !isTablet ? '100px' : '50px',
             display: 'flex',
             flexDirection: 'column',
             borderRadius: '10px',
@@ -55,12 +56,14 @@ export const useStyles = () => {
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'flex-start',
+            flexWrap: 'wrap',
         },
 
         chatBubbleContainerRight: {
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'flex-end',
+            flexWrap: 'wrap',
         },
 
         chatBubble: {
@@ -77,6 +80,95 @@ export const useStyles = () => {
 
         answer: {
             marginLeft: '10px',
+            marginTop: '10px',
+        },
+
+        finalChatBubble: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+        },
+
+        submitButton: {
+            marginTop: '10px',
+        },
+
+        pricePerNightField: {
+            width: '200px',
+            marginTop: '10px',
+        },
+
+        noHolidaysContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: '100px',
+        },
+
+        noHolidaysIcon: {
+            height: '300px',
+            width: '300px',
+        },
+
+        startOverButton: {
+            marginTop: '20px',
+        },
+
+        startOverButtonHolidays: {
+            marginBottom: '20px',
+        },
+
+        holidaysContainer: {
+            marginTop: !isTablet ? '100px' : '50px',
+            width: !isTablet ? '65%' : '90%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+        },
+
+        holidayContainer: {
+            borderTopRightRadius: '10px',
+            borderTopLeftRadius: '10px',
+            backgroundColor: theme.palette.primary.main,
+            padding: '20px',
+            flexGrow: 1,
+            marginBottom: !isTablet ? undefined : '10px',
+        },
+
+        holidayText: {
+            marginBottom: '5px',
+            color: 'white',
+        },
+
+        holidayTitle: {
+            marginBottom: '20px',
+            textAlign: 'center',
+        },
+
+        gridItem: {
+            display: 'flex',
+            flexDirection: 'column',
+        },
+
+        flexEndContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: !isTablet ? 'flex-end' : 'flex-start',
+        },
+
+        holidayContainerFooter: {
+            display: 'flex',
+            alignItems: 'center',
+            border: `2px solid ${theme.palette.primary.main}`,
+            borderBottomLeftRadius: '5px',
+            borderBottomRightRadius: '5px',
+            padding: '10px',
+        },
+
+        footerItem: {
+            marginRight: '10px',
         },
     });
 };

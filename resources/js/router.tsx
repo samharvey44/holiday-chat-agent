@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import React, { useEffect } from 'react';
+import React, { useCallback } from 'react';
 
 import { authedPages, unauthedPages } from './pages';
 import AppBar from 'app/components/layout/AppBar';
@@ -19,24 +19,26 @@ const Router: React.FC = () => {
         );
     }
 
+    const getRedirectProps = useCallback(
+        (matchAll: boolean): Parameters<typeof Route>[0] => ({
+            path: matchAll ? '*' : '/',
+            element: <Navigate replace to={!!user ? '/home' : '/login'} />,
+        }),
+        [user],
+    );
+
     return (
         <BrowserRouter>
             <Routes>
+                <Route {...getRedirectProps(false)} />
+
                 <Route path="/" element={<AppBar />}>
                     {pages.map(({ path, Element }) => (
                         <Route key={path} path={path} element={<Element />} />
                     ))}
-
-                    <Route
-                        path="*"
-                        element={
-                            <Navigate
-                                replace
-                                to={!!user ? '/home' : '/login'}
-                            />
-                        }
-                    />
                 </Route>
+
+                <Route {...getRedirectProps(true)} />
             </Routes>
         </BrowserRouter>
     );

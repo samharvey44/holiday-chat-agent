@@ -16,7 +16,7 @@ export const useStyles = () => {
         },
 
         loginContainer: {
-            marginTop: '100px',
+            marginTop: !isTablet ? '100px' : '50px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',

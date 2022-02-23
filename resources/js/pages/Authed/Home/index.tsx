@@ -1,5 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Rating from '@mui/material/Rating';
 import Button from '@mui/material/Button';
 import { useSnackbar } from 'notistack';
 import Slide from '@mui/material/Slide';
@@ -13,6 +15,9 @@ import { IQuestionWithAnswer } from 'app/atoms/questions/interfaces';
 import useGetQuestions from 'app/hooks/questions/get';
 import questionsAtom from 'app/atoms/questions';
 import { useStyles } from './hooks/useStyles';
+import { IHoliday } from 'app/interfaces';
+import api from 'app/services/api';
+import { url } from 'app/helpers';
 
 const Home: React.FC = () => {
     const questions = useRecoilValue(questionsAtom);
@@ -23,12 +28,18 @@ const Home: React.FC = () => {
     const [firstMessageIn, setFirstMessageIn] = useState(false);
     const [secondMessageIn, setSecondMessageIn] = useState(false);
     const [questionsIn, setQuestionsIn] = useState(false);
+    const [holidaysIn, setHolidaysIn] = useState(false);
+    const [agentIn, setAgentIn] = useState(true);
 
     const [currentQuestion, setCurrentQuestion] = useState(1);
 
     const [selectedAnswers, setSelectedAnswers] = useState<IQuestionWithAnswer>(
-        {},
+        {
+            pricePerNight: '',
+        },
     );
+
+    const [holidays, setHolidays] = useState<IHoliday[]>([]);
 
     useEffect(() => {
         const messageTimeout = setTimeout(() => {
@@ -54,12 +65,46 @@ const Home: React.FC = () => {
         }
     }, []);
 
+    const handleSubmitAnswers = () => {
+        api.get('/holidays', {
+            params: {
+                ...selectedAnswers,
+            },
+        })
+            .then(({ data: { data } }) => {
+                setHolidays(data);
+
+                setAgentIn(false);
+            })
+            .catch(() => {
+                enqueueSnackbar('Failed to get holidays!', {
+                    variant: 'error',
+                });
+            });
+    };
+
+    const resetAgent = () => {
+        setCurrentQuestion(1);
+        setSelectedAnswers({
+            pricePerNight: '',
+        });
+
+        setHolidaysIn(false);
+    };
+
     return (
-        <Slide direction="down" in>
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
+        <Grid container spacing={3}>
+            <Grid item xs={12}>
+                <Grow
+                    in={agentIn}
+                    mountOnEnter
+                    unmountOnExit
+                    onExited={() => {
+                        setHolidaysIn(true);
+                    }}
+                >
                     <Box sx={styles.root}>
-                        <Paper sx={styles.chatContainer}>
+                        <Paper sx={styles.chatContainer} variant="outlined">
                             <Box sx={styles.chatHeader}>
                                 <Typography
                                     variant="h5"
@@ -137,9 +182,8 @@ const Home: React.FC = () => {
                                                 order,
                                                 answers,
                                             }) => (
-                                                <Fragment>
+                                                <Fragment key={id}>
                                                     <Grow
-                                                        key={id}
                                                         in={
                                                             currentQuestion >=
                                                                 order &&
@@ -258,43 +302,326 @@ const Home: React.FC = () => {
                                             ),
                                         )}
 
-                                        {currentQuestion >=
-                                            questions.length && (
-                                            <Grow in mountOnEnter>
-                                                <Grid item xs={12}>
-                                                    <Box
-                                                        sx={
-                                                            styles.chatBubbleContainerLeft
-                                                        }
-                                                    >
+                                        {currentQuestion > questions.length && (
+                                            <Fragment>
+                                                <Grow in mountOnEnter>
+                                                    <Grid item xs={12}>
                                                         <Box
                                                             sx={
-                                                                styles.chatBubble
+                                                                styles.chatBubbleContainerLeft
                                                             }
                                                         >
-                                                            <Typography
-                                                                variant="subtitle1"
+                                                            <Box
                                                                 sx={
-                                                                    styles.chatText
+                                                                    styles.chatBubble
                                                                 }
                                                             >
-                                                                What is the
-                                                                maximum you wish
-                                                                pay per night?
-                                                            </Typography>
+                                                                <Typography
+                                                                    variant="subtitle1"
+                                                                    sx={
+                                                                        styles.chatText
+                                                                    }
+                                                                >
+                                                                    What is the
+                                                                    maximum you
+                                                                    wish pay per
+                                                                    night?
+                                                                </Typography>
+                                                            </Box>
                                                         </Box>
-                                                    </Box>
-                                                </Grid>
-                                            </Grow>
+                                                    </Grid>
+                                                </Grow>
+
+                                                <Grow in mountOnEnter>
+                                                    <Grid item xs={12}>
+                                                        <Box
+                                                            sx={
+                                                                styles.finalChatBubble
+                                                            }
+                                                        >
+                                                            <TextField
+                                                                sx={
+                                                                    styles.pricePerNightField
+                                                                }
+                                                                variant="filled"
+                                                                label="Enter a maximum cost..."
+                                                                value={
+                                                                    selectedAnswers.pricePerNight
+                                                                }
+                                                                onChange={(
+                                                                    e,
+                                                                ) => {
+                                                                    let value =
+                                                                        e.target
+                                                                            .value;
+
+                                                                    if (
+                                                                        value.length ===
+                                                                        0
+                                                                    ) {
+                                                                        value =
+                                                                            '0';
+                                                                    }
+
+                                                                    if (
+                                                                        isNaN(
+                                                                            parseInt(
+                                                                                value,
+                                                                                10,
+                                                                            ),
+                                                                        )
+                                                                    ) {
+                                                                        return;
+                                                                    }
+
+                                                                    setSelectedAnswers(
+                                                                        (
+                                                                            curr,
+                                                                        ) => ({
+                                                                            ...curr,
+                                                                            pricePerNight:
+                                                                                value,
+                                                                        }),
+                                                                    );
+                                                                }}
+                                                            />
+
+                                                            <Button
+                                                                disabled={
+                                                                    selectedAnswers
+                                                                        .pricePerNight
+                                                                        .length ===
+                                                                    0
+                                                                }
+                                                                sx={
+                                                                    styles.submitButton
+                                                                }
+                                                                variant="contained"
+                                                                color="primary"
+                                                                onClick={
+                                                                    handleSubmitAnswers
+                                                                }
+                                                            >
+                                                                Find Holidays
+                                                            </Button>
+                                                        </Box>
+                                                    </Grid>
+                                                </Grow>
+                                            </Fragment>
                                         )}
                                     </Grid>
                                 </Box>
                             </Box>
                         </Paper>
                     </Box>
-                </Grid>
+                </Grow>
+
+                <Slide
+                    in={holidaysIn}
+                    direction="left"
+                    mountOnEnter
+                    unmountOnExit
+                    onExited={() => {
+                        setAgentIn(true);
+                    }}
+                >
+                    <Box sx={styles.root}>
+                        {holidays.length === 0 ? (
+                            <Box sx={styles.noHolidaysContainer}>
+                                <img
+                                    src={url('/images/no-holidays.svg')}
+                                    style={styles.noHolidaysIcon}
+                                />
+
+                                <Typography variant="h6">
+                                    No holidays matched your criteria!
+                                </Typography>
+
+                                <Typography variant="subtitle1">
+                                    We add new holidays regularly, so check back
+                                    another time!
+                                </Typography>
+
+                                <Button
+                                    onClick={resetAgent}
+                                    variant="contained"
+                                    color="primary"
+                                    sx={styles.startOverButton}
+                                >
+                                    Start Over
+                                </Button>
+                            </Box>
+                        ) : (
+                            <Box sx={styles.holidaysContainer}>
+                                <Typography
+                                    variant="h4"
+                                    sx={styles.holidayTitle}
+                                >
+                                    We found you <b>{holidays.length}</b>{' '}
+                                    matching holidays!
+                                </Typography>
+
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    sx={styles.startOverButtonHolidays}
+                                    onClick={resetAgent}
+                                >
+                                    Start Over
+                                </Button>
+
+                                <Grid container spacing={3}>
+                                    {holidays.map(
+                                        ({
+                                            id,
+                                            createdAt,
+                                            hotelName,
+                                            pricePerNight,
+                                            rating,
+                                            temperature,
+                                            continent,
+                                            location,
+                                            category,
+                                            country,
+                                            city,
+                                        }) => (
+                                            <Grid
+                                                item
+                                                xs={12}
+                                                md={6}
+                                                key={id}
+                                                sx={styles.gridItem}
+                                            >
+                                                <Box
+                                                    sx={styles.holidayContainer}
+                                                >
+                                                    <Grid container spacing={3}>
+                                                        <Grid
+                                                            item
+                                                            xs={12}
+                                                            md={6}
+                                                        >
+                                                            <Typography
+                                                                variant="h6"
+                                                                sx={
+                                                                    styles.holidayText
+                                                                }
+                                                            >
+                                                                <b>
+                                                                    Hotel Name:
+                                                                </b>{' '}
+                                                                {hotelName}
+                                                            </Typography>
+
+                                                            {city && (
+                                                                <Typography
+                                                                    variant="h6"
+                                                                    sx={
+                                                                        styles.holidayText
+                                                                    }
+                                                                >
+                                                                    <b>City:</b>{' '}
+                                                                    {city.name}
+                                                                </Typography>
+                                                            )}
+
+                                                            <Typography
+                                                                variant="subtitle1"
+                                                                sx={
+                                                                    styles.holidayText
+                                                                }
+                                                            >
+                                                                <b>Country:</b>{' '}
+                                                                {country.name}
+                                                            </Typography>
+
+                                                            <Typography
+                                                                variant="subtitle1"
+                                                                sx={
+                                                                    styles.holidayText
+                                                                }
+                                                            >
+                                                                <b>
+                                                                    Continent:
+                                                                </b>{' '}
+                                                                {continent.name}
+                                                            </Typography>
+                                                        </Grid>
+
+                                                        <Grid
+                                                            item
+                                                            xs={12}
+                                                            md={6}
+                                                        >
+                                                            <Box
+                                                                sx={
+                                                                    styles.flexEndContainer
+                                                                }
+                                                            >
+                                                                <Rating
+                                                                    size="large"
+                                                                    readOnly
+                                                                    precision={
+                                                                        0.5
+                                                                    }
+                                                                    value={
+                                                                        rating
+                                                                    }
+                                                                />
+
+                                                                <Typography
+                                                                    variant="subtitle1"
+                                                                    sx={
+                                                                        styles.holidayText
+                                                                    }
+                                                                >
+                                                                    £
+                                                                    {
+                                                                        pricePerNight
+                                                                    }{' '}
+                                                                    per night
+                                                                </Typography>
+                                                            </Box>
+                                                        </Grid>
+                                                    </Grid>
+                                                </Box>
+
+                                                <Box
+                                                    sx={
+                                                        styles.holidayContainerFooter
+                                                    }
+                                                >
+                                                    <Typography
+                                                        variant="subtitle1"
+                                                        sx={styles.footerItem}
+                                                    >
+                                                        <b>Temperature:</b>{' '}
+                                                        {temperature.name}
+                                                    </Typography>
+
+                                                    <Typography
+                                                        variant="subtitle1"
+                                                        sx={styles.footerItem}
+                                                    >
+                                                        <b>Category:</b>{' '}
+                                                        {category.name}
+                                                    </Typography>
+
+                                                    <Typography variant="subtitle1">
+                                                        <b>Location:</b>{' '}
+                                                        {location.name}
+                                                    </Typography>
+                                                </Box>
+                                            </Grid>
+                                        ),
+                                    )}
+                                </Grid>
+                            </Box>
+                        )}
+                    </Box>
+                </Slide>
             </Grid>
-        </Slide>
+        </Grid>
     );
 };
 
