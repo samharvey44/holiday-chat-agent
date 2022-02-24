@@ -13,32 +13,45 @@ Whilst remaining an extremely simple application, I have implemented extra tasks
 ### Dependencies
 
 -   Git
+
 -   Node
+
 -   NPM
+
 -   PHP
+
 -   Composer
+
 -   MySQL
 
 ### Installing
 
 From the command line, clone this repository:
+
+<br />
+
 `$ git clone https://github.com/samharvey44/holiday-chat-agent`
 
 ### Executing program
 
 -   Initialise the project:
-    `$ npm install`
-    `$ composer install`
+
+`$ npm install`
+
+`$ composer install`
 
 -   Copy the .env.example file, and rename it to .env.
 
 -   Configure the database credentials in the newly created .env file.
 
 -   Migrate and seed the database:
-    `$ npm run migrate`
+
+`$ npm run migrate`
 
 -   Generate the app key:
-    `$ php artisan key:generate`
+
+`$ php artisan key:generate`
 
 -   And finally, start the server!
-    `$ php artisan serve`
+
+`$ php artisan serve`
