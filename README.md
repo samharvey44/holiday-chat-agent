@@ -6,7 +6,7 @@ A simple 'chat agent' SPA made with Laravel and React.
 
 As part of my apprenticeship with Estio Training, I was tasked with the creation of a simple 'chat bot' esque application - requiring the ability to ask users at least two questions, and provide matching holidays from a provided dataset based on responses.
 
-Whilst remaining an extremely simple application, I have implemented extra tasks than were identified within the initial brief. These include user authentication - powered by Laravel Sanctum - and user access levels.
+Whilst remaining an extremely simple application, I have implemented extra features than were identified within the initial brief. These include user authentication - powered by Laravel Sanctum - and user access levels.
 
 ## Getting Started
 
