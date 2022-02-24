@@ -7,8 +7,8 @@ import React, { Fragment } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 
+import useGetTimeOfDay from 'app/hooks/getTimeOfDay';
 import useLogoutUser from 'app/hooks/user/logout';
-import useTimeOfDay from 'app/hooks/timeOfDay';
 import { useStyles } from './hooks/useStyles';
 import useNavigate from 'app/hooks/navigate';
 import { ERoles, EPages } from 'app/enums';
@@ -17,7 +17,7 @@ import userAtom from 'app/atoms/user';
 
 const AppBar: React.FC = () => {
     const user = useRecoilValue(userAtom);
-    const timeOfDay = useTimeOfDay();
+    const timeOfDay = useGetTimeOfDay();
     const navigate = useNavigate();
     const logout = useLogoutUser();
     const styles = useStyles();
