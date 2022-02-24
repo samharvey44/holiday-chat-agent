@@ -45,7 +45,7 @@ class AuthController extends Controller {
      * 
      * @return void
      */
-    public function Register(RegisterRequest $request) {
+    public function register(RegisterRequest $request) {
         $user = User::make([
             'password' => bcrypt($request->input('password')),
             'email' => $request->input('email'),
