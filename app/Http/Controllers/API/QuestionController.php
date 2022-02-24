@@ -16,6 +16,6 @@ class QuestionController extends Controller {
      * @return \App\Http\Resources\QuestionResource
      */
     public function index(IndexRequest $request) {
-        return QuestionResource::collection(Question::with('answers')->get());
+        return QuestionResource::collection(Question::with('answers')->orderBy('order')->get());
     }
 }
