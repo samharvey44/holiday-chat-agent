@@ -15,7 +15,8 @@ export const useStyles = () => {
             justifyContent: 'center',
             alignItems: 'center',
             width: '100%',
-            marginBottom: '20px',
+            marginTop: '50px',
+            marginBottom: '50px',
         },
 
         noHolidaysContainer: {
@@ -23,7 +24,6 @@ export const useStyles = () => {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            marginTop: '100px',
         },
 
         noHolidaysIcon: {
@@ -40,7 +40,6 @@ export const useStyles = () => {
         },
 
         holidaysContainer: {
-            marginTop: !isTablet ? '100px' : '50px',
             width: !isTablet ? '65%' : '90%',
             display: 'flex',
             alignItems: 'center',

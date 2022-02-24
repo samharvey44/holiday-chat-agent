@@ -15,12 +15,11 @@ export const useStyles = () => {
             justifyContent: 'center',
             alignItems: 'center',
             width: '100%',
-            marginBottom: '20px',
+            marginTop: '50px',
+            marginBottom: '50px',
         },
 
         chatContainer: {
-            marginTop: !isTablet ? '100px' : '50px',
-            marginBottom: !isTablet ? '100px' : '50px',
             display: 'flex',
             flexDirection: 'column',
             borderRadius: '10px',

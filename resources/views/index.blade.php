@@ -15,6 +15,7 @@
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
         />
+        
         <script src="{{ asset('js/manifest.js') }}" defer></script>
         <script src="{{ asset('js/vendor.js') }}" defer></script>
         <script src="{{ asset('js/app.js') }}" defer></script>

@@ -14,11 +14,11 @@ export const useStyles = () => {
             justifyContent: 'center',
             alignItems: 'center',
             width: '100%',
+            marginTop: '50px',
+            marginBottom: '50px',
         },
 
         createContainer: {
-            marginTop: !isTablet ? '100px' : '50px',
-            marginBottom: !isTablet ? '100px' : '50px',
             width: !isTablet ? '45%' : '90%',
             display: 'flex',
             alignItems: 'center',

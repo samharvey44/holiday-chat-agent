@@ -13,11 +13,11 @@ export const useStyles = () => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
+            marginTop: '50px',
+            marginBottom: '50px',
         },
 
         loginContainer: {
-            marginTop: !isTablet ? '100px' : '50px',
-            marginBottom: !isTablet ? '100px' : '50px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
