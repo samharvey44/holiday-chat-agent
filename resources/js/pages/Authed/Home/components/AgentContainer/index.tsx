@@ -282,97 +282,110 @@ const AgentContainer: React.FC<IProps> = ({
                                     ),
                                 )}
 
-                                {currentQuestion > questions.length && (
-                                    <Fragment>
-                                        <Grow in mountOnEnter>
-                                            <Grid item xs={12}>
-                                                <Box
-                                                    sx={
-                                                        styles.chatBubbleContainerLeft
-                                                    }
-                                                >
-                                                    <Box sx={styles.chatBubble}>
-                                                        <Typography
-                                                            variant="subtitle1"
-                                                            sx={styles.chatText}
-                                                        >
-                                                            What is the maximum
-                                                            you wish pay per
-                                                            night?
-                                                        </Typography>
-                                                    </Box>
-                                                </Box>
-                                            </Grid>
-                                        </Grow>
-
-                                        <Grow in mountOnEnter>
-                                            <Grid item xs={12}>
-                                                <Box
-                                                    sx={styles.finalChatBubble}
-                                                >
-                                                    <TextField
+                                {currentQuestion > questions.length &&
+                                    questions.length > 0 && (
+                                        <Fragment>
+                                            <Grow in mountOnEnter>
+                                                <Grid item xs={12}>
+                                                    <Box
                                                         sx={
-                                                            styles.pricePerNightField
+                                                            styles.chatBubbleContainerLeft
                                                         }
-                                                        variant="filled"
-                                                        label="Enter a maximum cost..."
-                                                        value={
-                                                            selectedAnswers.pricePerNight
-                                                        }
-                                                        onChange={(e) => {
-                                                            let value =
-                                                                e.target.value;
-
-                                                            if (
-                                                                value.length ===
-                                                                0
-                                                            ) {
-                                                                value = '0';
-                                                            }
-
-                                                            if (
-                                                                isNaN(
-                                                                    parseInt(
-                                                                        value,
-                                                                        10,
-                                                                    ),
-                                                                )
-                                                            ) {
-                                                                return;
-                                                            }
-
-                                                            setSelectedAnswers(
-                                                                (curr) => ({
-                                                                    ...curr,
-                                                                    pricePerNight:
-                                                                        value,
-                                                                }),
-                                                            );
-                                                        }}
-                                                    />
-
-                                                    <Button
-                                                        disabled={
-                                                            selectedAnswers
-                                                                .pricePerNight
-                                                                .length === 0
-                                                        }
-                                                        sx={styles.submitButton}
-                                                        variant="contained"
-                                                        color="primary"
-                                                        onClick={() => {
-                                                            handleGetHolidays(
-                                                                1,
-                                                            );
-                                                        }}
                                                     >
-                                                        Find Holidays
-                                                    </Button>
-                                                </Box>
-                                            </Grid>
-                                        </Grow>
-                                    </Fragment>
-                                )}
+                                                        <Box
+                                                            sx={
+                                                                styles.chatBubble
+                                                            }
+                                                        >
+                                                            <Typography
+                                                                variant="subtitle1"
+                                                                sx={
+                                                                    styles.chatText
+                                                                }
+                                                            >
+                                                                What is the
+                                                                maximum you wish
+                                                                pay per night?
+                                                            </Typography>
+                                                        </Box>
+                                                    </Box>
+                                                </Grid>
+                                            </Grow>
+
+                                            <Grow in mountOnEnter>
+                                                <Grid item xs={12}>
+                                                    <Box
+                                                        sx={
+                                                            styles.finalChatBubble
+                                                        }
+                                                    >
+                                                        <TextField
+                                                            sx={
+                                                                styles.pricePerNightField
+                                                            }
+                                                            variant="filled"
+                                                            label="Enter a maximum cost..."
+                                                            value={
+                                                                selectedAnswers.pricePerNight
+                                                            }
+                                                            onChange={(e) => {
+                                                                let value =
+                                                                    e.target
+                                                                        .value;
+
+                                                                if (
+                                                                    value.length ===
+                                                                    0
+                                                                ) {
+                                                                    value = '0';
+                                                                }
+
+                                                                if (
+                                                                    isNaN(
+                                                                        parseInt(
+                                                                            value,
+                                                                            10,
+                                                                        ),
+                                                                    )
+                                                                ) {
+                                                                    return;
+                                                                }
+
+                                                                setSelectedAnswers(
+                                                                    (curr) => ({
+                                                                        ...curr,
+                                                                        pricePerNight:
+                                                                            value,
+                                                                    }),
+                                                                );
+                                                            }}
+                                                        />
+
+                                                        <Button
+                                                            disabled={
+                                                                selectedAnswers
+                                                                    .pricePerNight
+                                                                    .length ===
+                                                                0
+                                                            }
+                                                            sx={
+                                                                styles.submitButton
+                                                            }
+                                                            variant="contained"
+                                                            color="primary"
+                                                            onClick={() => {
+                                                                handleGetHolidays(
+                                                                    1,
+                                                                );
+                                                            }}
+                                                        >
+                                                            Find Holidays
+                                                        </Button>
+                                                    </Box>
+                                                </Grid>
+                                            </Grow>
+                                        </Fragment>
+                                    )}
                             </Grid>
                         </Box>
                     </Box>

@@ -4,8 +4,8 @@ import { RecoilRoot } from 'recoil';
 import React from 'react';
 
 import useInitializeTheme from './hooks/initializeTheme';
-import Router from './router';
 import MainGate from './components/gates/MainGate';
+import Router from './router';
 
 const Main: React.FC = () => {
     const theme = useInitializeTheme();
